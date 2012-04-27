@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file
+ * Class definition for Directnews Parser.
+ *
+ * Parses Directnews feeds.
+ */
 class DirectnewsParser extends FeedsParser {
 
  /**
@@ -20,8 +26,8 @@ class DirectnewsParser extends FeedsParser {
     
     $items=array();
     
-    foreach($xml->Article as $article){
-    	$items[] = $this->parseArticleElement($article);    	
+    foreach ($xml->Article as $article) {
+      $items[] = $this->parseArticleElement($article);
     }
        
     
@@ -56,21 +62,19 @@ class DirectnewsParser extends FeedsParser {
       ),
      ) + parent::getMappingSources();
   }
-  
-  private function parseArticleElement($articleElement){
-  	
-  	$createdTime = "{$articleElement->attributes()->Created}";
-  	$createdDate = "{$articleElement->Date}";
-  	list($day, $month, $year) = split('[/]', $date);
-  	$created = strtotime($year . "-" . $month . "-" . $day . " " . $createdTime);
-  	
-  	
-  	return array(
-    		'heading' => "{$articleElement->Heading}",
-    		'created' => $created,
-    		'contents' => "{$articleElement->Contents}",
-    		'summary' => "{$articleElement->Summary}",
-    		'guid' => "{$articleElement->attributes()->ID}" //Unique identidier to manage updates / duplicates
+
+  private function parseArticleElement($articleElement) {
+    $createdTime = "{$articleElement->attributes()->Created}";
+    $createdDate = "{$articleElement->Date}";
+    list($day, $month, $year) = split('[/]', $date);
+    $created = strtotime($year . "-" . $month . "-" . $day . " " . $createdTime);
+    
+    return array(
+      'heading' => "{$articleElement->Heading}",
+      'created' => $created,
+      'contents' => "{$articleElement->Contents}",
+      'summary' => "{$articleElement->Summary}",
+      'guid' => "{$articleElement->attributes()->ID}" //Unique identidier to manage updates / duplicates
     );
   }
 
